@@ -11,7 +11,12 @@
  * Example 2:
  * Input: address = "255.100.50.0"
  * Output: "255[.]100[.]50[.]0"
+ *
+ * Constraints:
+ * address is a valid IPv4 address
+ * 1 <= address.length <= 15
  */
+
 
 function defangIPaddr(address: string): string {
 
