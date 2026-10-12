@@ -24,3 +24,43 @@
  * -10^9 <= target <= 10^9
  * There will be exactly one valid answer.
  */
+
+function twoSum(numbers:number[],target:number){
+    let myMap= new Map<number,number>()
+    //nums = [3,2,4], target = 6
+    for(let i=0;i<numbers.length;i++){
+        let currentNumber=numbers[i]
+        const compliment=target-currentNumber
+        if(myMap.has(compliment)){
+            return [myMap.get(compliment),i]
+        }else{
+            myMap.set(currentNumber,i)
+        }
+    }
+}
+
+console.log(twoSum([2,7,11,15],9));
+console.log(twoSum([3,2,4],6));
+console.log(twoSum([3,3],6));
+
+/**
+ * Interview prep explanation:
+ *
+ * We need to return the indices of two numbers whose sum equals the target.
+ * As we scan the array, calculate the complement each number needs:
+ * complement = target - currentNumber.
+ *
+ * Store each number and its index in a Map as we visit it. Before storing the
+ * current number, check whether its complement is already in the Map. If so,
+ * those two indices form the answer. Checking before inserting also ensures
+ * that we do not use the same array element twice.
+ *
+ * Example: nums = [3, 2, 4], target = 6
+ * - Visit 3: complement is 3; it is not in the Map, so store 3 -> index 0.
+ * - Visit 2: complement is 4; it is not in the Map, so store 2 -> index 1.
+ * - Visit 4: complement is 2; it is in the Map, so return [1, 2].
+ *
+ * Time Complexity: O(n), because each number is processed once and Map lookups
+ * take O(1) average time.
+ * Space Complexity: O(n), because the Map may store up to n numbers.
+ */
