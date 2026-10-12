@@ -22,3 +22,37 @@
  * 1 <= nums.length <= 1000
  * -10^6 <= nums[i] <= 10^6
  */
+
+function runningSum(input:number[]){
+    let myArray:number[] =[]
+    let counter=0
+    for(let i=0;i<input.length;i++){
+        // Add the current value to the sum of all previous values.
+        counter=counter+input[i]
+        // The updated total is the running sum for this index.
+        myArray.push(counter)
+    }
+    return myArray
+}
+console.log(runningSum([1,2,3,4]))
+console.log(runningSum([1,1,1,1]))
+console.log(runningSum([3,1,2,10,1]))
+
+/**
+ * Interview prep explanation:
+ *
+ * A running sum at index i is the sum of every input value from index 0 through i.
+ * Keep a cumulative total as we scan the array from left to right. For each value,
+ * add it to the total and append that total to the result array.
+ *
+ * Example: [3, 1, 2, 10, 1]
+ * - Start with total 0.
+ * - Add 3: total is 3, so append 3.
+ * - Add 1: total is 4, so append 4.
+ * - Continue to get [3, 4, 6, 16, 17].
+ *
+ * Time Complexity: O(n), because each input value is processed once.
+ * Space Complexity: O(n), because the result contains one value per input element.
+ */
+
+
