@@ -32,7 +32,7 @@ function sortColors(nums: number[]): void {
         let currentNumberCounter=myMap.get(currentNumber)||0
         myMap.set(currentNumber,currentNumberCounter+1)
     }
-    console.log(myMap)
+    //console.log(myMap)
 
     let count=0
     for(let i=0;i<=2;i++){
@@ -47,3 +47,4 @@ function sortColors(nums: number[]): void {
 };
 
 sortColors([2,0,2,1,1,0])
+sortColors([2,0,1])

@@ -23,3 +23,22 @@
  * 1 <= nums.length <= 100
  * 0 <= nums[i] <= 10^9
  */
+
+function largestNumber(nums: number[]): string {
+    // Step 1: Convert all numbers to strings
+    const numsString = nums.map(String)
+    
+    //Sort
+    numsString.sort((a,b)=>{
+        const ord1=a+b
+        const ord2=b+a
+        return ord2.localeCompare(ord1)
+    })
+
+    console.log(numsString)
+    return numsString.join("")
+};
+
+console.log(largestNumber([3, 30, 34, 5, 9]))
+console.log(largestNumber([10, 2]))
+console.log(largestNumber([10, 2, 4, 1]))
