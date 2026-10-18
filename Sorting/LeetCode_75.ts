@@ -21,3 +21,29 @@
  * 1 <= n <= 300
  * nums[i] is either 0, 1, or 2
  */
+
+function sortColors(nums: number[]): void {
+    let myMap=new Map<number,number>()
+    for(let i=0;i<nums.length;i++){
+        let currentNumber=nums[i]
+        if(!myMap.has(currentNumber)){
+            myMap.set(currentNumber,0)
+        }
+        let currentNumberCounter=myMap.get(currentNumber)||0
+        myMap.set(currentNumber,currentNumberCounter+1)
+    }
+    console.log(myMap)
+
+    let count=0
+    for(let i=0;i<=2;i++){
+        let appearanceCount=myMap.get(i)||0
+        while(appearanceCount>0){
+            nums[count]=i
+            count++
+            appearanceCount--
+        }
+    }
+    console.log(nums)
+};
+
+sortColors([2,0,2,1,1,0])
