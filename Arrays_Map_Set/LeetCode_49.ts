@@ -23,3 +23,22 @@
  * 0 <= strs[i].length <= 100
  * strs[i] consists of lowercase English letters
  */
+
+function groupAnagrams(strs: string[]): string[][] {
+
+    let myMap = new Map<string, string[]>()
+    for (let i = 0; i < strs.length; i++) {
+        let currentString = strs[i]
+        let sortedString = currentString.split("").sort().join("")
+        if(!myMap.has(sortedString)){
+            myMap.set(sortedString,[])
+        }
+        myMap.get(sortedString)?.push(currentString)
+        
+    }
+    return Array.from(myMap.values())
+};
+
+console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+console.log(groupAnagrams([""]))
+console.log(groupAnagrams(["a"]))
