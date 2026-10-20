@@ -100,12 +100,9 @@ console.log(maskPII("+1 (333) 444-5678"));  // Output: "+*-***-***-5678"
 console.log(maskPII("1-333-444-5678"));    // Output: "+*-***-***-5678"
 console.log(maskPII("1 333 444 5678"));    // Output: "+*-***-***-5678"
 console.log(maskPII("+13334445678"));      // Output: "+*-***-***-5678"
-
 // 10-digit phone number (No country code -> "***-***-")
 console.log(maskPII("1(234)567-890"));     // Output: "***-***-7890"
-
 // 12-digit phone number (Country code: 2 digits -> "+**-")
 console.log(maskPII("+86(10)12345678"));   // Output: "+**-***-***-5678"
-
 // 13-digit phone number (Country code: 3 digits -> "+***-")
 console.log(maskPII("+123 456 789 0123")); // Output: "+***-***-***-0123"
