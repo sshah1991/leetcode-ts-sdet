@@ -30,3 +30,33 @@ function intersection(nums1: number[], nums2: number[]): number[] {
 };
 console.log(intersection([1,2,2,1],[2,2]))
 console.log(intersection([4,9,5],[9,4,9,8,4]))
+
+/**
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * We need to find values that appear in BOTH arrays, but each value should
+ * appear only once in the result — even if it appears multiple times in either array.
+ * Think of it as a classic mathematical set intersection: A ∩ B.
+ *
+ * HOW TO RECOGNIZE THE PATTERN:
+ * Any time you see "find common elements" or "appears in both", think Set/Map.
+ * - Build a Set from the first array so lookups are O(1).
+ * - Iterate the second array and collect matches in another Set to guarantee uniqueness.
+ * - Convert the result Set to an array at the end.
+ *
+ * STEP-BY-STEP WALKTHROUGH:
+ * nums1 = [1, 2, 2, 1], nums2 = [2, 2]
+ * 1. nums1Set = {1, 2}
+ * 2. Scan nums2:
+ *    - 2 is in nums1Set → add to resultSet → resultSet = {2}
+ *    - 2 is already in resultSet (no duplicate added)
+ * 3. Return [2]
+ *
+ * INTERVIEW TIPS:
+ * - Using a result Set automatically handles the "unique" requirement.
+ * - Mention that converting nums1 to a Set first reduces lookup time from O(n) to O(1).
+ * - If asked for a follow-up with sorted arrays, mention the two-pointer approach as O(n) with O(1) space.
+ * - If asked "what if the arrays are huge and can't fit in memory?", mention external merge sort or streaming.
+ *
+ * Time Complexity:  O(n + m) — building nums1Set is O(n), scanning nums2 is O(m).
+ * Space Complexity: O(min(n, m)) — result set holds at most min(n, m) unique values.
+ */

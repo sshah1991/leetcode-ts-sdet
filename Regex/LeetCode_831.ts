@@ -106,3 +106,43 @@ console.log(maskPII("1(234)567-890"));     // Output: "***-***-7890"
 console.log(maskPII("+86(10)12345678"));   // Output: "+**-***-***-5678"
 // 13-digit phone number (Country code: 3 digits -> "+***-")
 console.log(maskPII("+123 456 789 0123")); // Output: "+***-***-***-0123"
+
+/**
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * We are given a personal information string that is EITHER an email OR a phone number.
+ * We must mask it: hide most characters but keep a few identifying characters visible.
+ * - Email: keep first and last characters of the local part, mask the rest with *****.
+ * - Phone: strip all formatting, keep only the last 4 digits visible,
+ *   and prefix with +* / +** / +*** depending on how many extra country-code digits there are.
+ *
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a string manipulation / parsing problem.
+ * The first decision is always: email or phone?
+ * - If it contains "@" → email path.
+ * - Otherwise → phone number path.
+ * After that, each path is a series of straightforward string operations.
+ *
+ * EMAIL WALKTHROUGH:
+ * "LeetCode@LeetCode.com"
+ * 1. Lowercase → "leetcode@leetcode.com"
+ * 2. Split at "@" → local = "leetcode", domain = "leetcode.com"
+ * 3. Mask → first char + "*****" + last char + "@" + domain
+ *          = "l*****e@leetcode.com"
+ *
+ * PHONE WALKTHROUGH:
+ * "+1 (333) 444-5678"
+ * 1. Strip non-digits → "13334445678" (11 digits)
+ * 2. Last 4 digits = "5678", build base = "***-***-5678"
+ * 3. Extra digits = 11 - 10 = 1 → prefix = "+*-"
+ * 4. Result = "+*-***-***-5678"
+ *
+ * INTERVIEW TIPS:
+ * - Clearly identify the two branches early; interviewers like to see structured thinking.
+ * - For email, always lowercase first — this avoids case-sensitivity bugs.
+ * - For phone, using \D regex to strip non-digits is cleaner than manual character checks.
+ * - Mention edge cases: single-character local name in email, 10-digit vs 13-digit phone.
+ * - The formula for phone prefix: (total digits - 10) extra country-code digits → that many "+" stars.
+ *
+ * Time Complexity:  O(n) — we scan the string a constant number of times.
+ * Space Complexity: O(n) — we build new strings for the result.
+ */

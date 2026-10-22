@@ -66,3 +66,45 @@ function relativeSortArray(arr1: number[], arr2: number[]): number[] {
 };
 console.log(relativeSortArray([2, 3, 1, 3, 2, 4, 6, 7, 9, 2, 19], [2, 1, 4, 3, 9, 6]))
 console.log(relativeSortArray([28,6,22,8,44,17], [22,28,8,6]))
+
+/**
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * We have two arrays. arr2 defines a custom priority order.
+ * We must sort arr1 so that:
+ *   1. Elements that appear in arr2 come first, in the SAME relative order as arr2.
+ *   2. Elements in arr1 that are NOT in arr2 come last, sorted in ascending order.
+ * Think of it as a "custom comparator" problem where arr2 is the priority list.
+ *
+ * HOW TO RECOGNIZE THE PATTERN:
+ * When you need a custom sort order defined by another array, use a frequency Map.
+ * - Count occurrences of each element in arr1 using a Map.
+ * - Iterate arr2 and for each element, push it into the result as many times as its count.
+ * - Collect remaining elements (not in arr2), sort them numerically, append them.
+ *
+ * STEP-BY-STEP WALKTHROUGH:
+ * arr1 = [2,3,1,3,2,4,6,7,9,2,19], arr2 = [2,1,4,3,9,6]
+ * 1. Build frequency Map from arr1:
+ *    {2:3, 3:2, 1:1, 4:1, 6:1, 7:1, 9:1, 19:1}
+ * 2. Follow arr2 order, push counted times:
+ *    2 appears 3 times → push [2,2,2]
+ *    1 appears 1 time  → push [1]
+ *    4 appears 1 time  → push [4]
+ *    3 appears 2 times → push [3,3]
+ *    9 appears 1 time  → push [9]
+ *    6 appears 1 time  → push [6]
+ *    → result so far: [2,2,2,1,4,3,3,9,6]
+ * 3. Remaining keys not in arr2: {7:1, 19:1}
+ *    Sort ascending → [7, 19]
+ *    Append → [2,2,2,1,4,3,3,9,6,7,19]
+ *
+ * INTERVIEW TIPS:
+ * - The key insight is: delete keys from the Map as you process arr2 — this makes it easy
+ *   to see what is "remaining" for the second half.
+ * - Mention that arr2 elements are guaranteed distinct, so no duplicate key issues in arr2.
+ * - For the remaining elements, use sort((a, b) => a - b) for numeric ascending order
+ *   (default JS sort is lexicographic and would sort 19 before 7!).
+ * - Edge case: if arr1 has an element not in arr2 with count > 1, it still gets repeated.
+ *
+ * Time Complexity:  O(n log n) — dominated by sorting the remaining elements.
+ * Space Complexity: O(n)       — the Map and result array.
+ */

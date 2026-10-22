@@ -116,3 +116,39 @@ runJudge([99], [99]);
 
 // 7. Negative numbers and zero
 runJudge([-3, -3, -2, -1, 0, 0, 1], [-3, -2, -1, 0, 1]);
+
+/**
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * The array is already sorted in non-decreasing order.
+ * We must remove duplicate values IN-PLACE (no extra array allowed) and return k —
+ * the count of unique elements. The first k positions of nums must hold the unique values in order.
+ *
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a classic TWO POINTER (slow-fast) problem on a sorted array.
+ * - k (slow pointer): marks the next position to write a unique value.
+ * - i (fast pointer): scans the array looking for new distinct values.
+ * Since the array is sorted, duplicates are always adjacent — compare nums[i] with nums[i-1].
+ *
+ * STEP-BY-STEP WALKTHROUGH:
+ * nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+ * k = 1 (first element is always unique)
+ * i=1: nums[1]==nums[0] (0==0) → skip
+ * i=2: nums[2]!=nums[1] (1!=0) → nums[k]=nums[i] → nums[1]=1 → k=2
+ * i=3: nums[3]==nums[2] (1==1) → skip
+ * i=4: nums[4]==nums[3] (1==1) → skip
+ * i=5: nums[5]!=nums[4] (2!=1) → nums[2]=2 → k=3
+ * ... and so on
+ * Final: nums = [0,1,2,3,4,...] (first 5 are unique), return k=5
+ *
+ * INTERVIEW TIPS:
+ * - Key insight: comparing nums[i] with nums[i-1] (not nums[k-1]) is equivalent here because
+ *   sorted order guarantees any new unique value is larger than the previous.
+ * - The comparison nums[i] !== nums[i-1] avoids the need to look back at the write pointer.
+ * - Edge case: single element array → return 1 immediately (or k starts at 1, loop doesn't run).
+ * - This pattern generalizes: "remove duplicates allowing at most k occurrences" (LeetCode 80)
+ *   uses the same two-pointer technique with a slight modification.
+ * - The problem says elements beyond k can be anything — no need to clean them up.
+ *
+ * Time Complexity:  O(n) — single pass through the array.
+ * Space Complexity: O(1) — in-place, no extra data structures.
+ */

@@ -105,3 +105,40 @@ console.log(isValid("("));             // false - Odd length, single opener
 console.log(isValid("(()"));           // false - Odd length, missing final closer
 console.log(isValid("((("));           // false - Odd length, all openers
 console.log(isValid("(([]){"));        // false - Leftover unclosed brackets in stack
+
+
+/**
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * We need to verify that every opening bracket has a corresponding matching closing bracket,
+ * in the correct order. Three types of pairs: () [] {}.
+ * Pairs must be properly nested — "(]" is invalid even though both characters are present.
+ *
+ * HOW TO RECOGNIZE THE PATTERN:
+ * Any time you see "matching pairs", "nested structure", or "valid ordering",
+ * think STACK. The key insight is:
+ * - Opening brackets get pushed onto a stack (Last In, First Out).
+ * - When a closing bracket appears, it must match the most recently opened bracket
+ *   (the top of the stack).
+ * - If the stack is empty at the end, all brackets were matched.
+ *
+ * STEP-BY-STEP WALKTHROUGH:
+ * s = "{[()]}"
+ * - '{' → push → stack: ['{']
+ * - '[' → push → stack: ['{', '[']
+ * - '(' → push → stack: ['{', '[', '(']
+ * - ')' → closing: pop → top was '(' ✅ match → stack: ['{', '[']
+ * - ']' → closing: pop → top was '[' ✅ match → stack: ['{']
+ * - '}' → closing: pop → top was '{' ✅ match → stack: []
+ * Stack is empty → return true
+ *
+ * INTERVIEW TIPS:
+ * - The early-exit check (odd length → return false immediately) is a nice optimization to mention.
+ * - Using a Map (closeToOpen) to store bracket pairs avoids a chain of if/else comparisons.
+ * - Always check if the stack is non-empty at the end — openers left on the stack mean invalid.
+ * - Key edge cases: single character (returns false), "]" alone (stack empty pop → undefined mismatch).
+ * - When popping, if the stack is empty and a closing bracket appears → return false immediately
+ *   (topElement will be undefined, which won't equal the expected opener).
+ *
+ * Time Complexity:  O(n) — each character is pushed/popped at most once.
+ * Space Complexity: O(n) — in the worst case all openers are pushed before any closer appears.
+ */

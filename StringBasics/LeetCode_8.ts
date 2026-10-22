@@ -55,3 +55,45 @@ console.log(myAtoi("0-1"));             // Output: 0
 console.log(myAtoi("words and 987"));   // Output: 0
 console.log(myAtoi("-91283472332"));    // Output: -2147483648 (Clamped to INT_MIN)
 console.log(myAtoi("2147483648"));      // Output: 21
+
+/**
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * Implement the atoi function — convert a string to a 32-bit signed integer.
+ * The rules mimic how a real parser works:
+ * 1. Skip any leading whitespace.
+ * 2. Read an optional '+' or '-' sign.
+ * 3. Read as many consecutive digit characters as possible.
+ * 4. Clamp the result to the 32-bit signed integer range [-2^31, 2^31 - 1].
+ * Stop as soon as a non-digit character is encountered after the digits start.
+ *
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a string parsing / state machine problem. There are four distinct stages:
+ *   Stage 1 → skip whitespace
+ *   Stage 2 → read sign
+ *   Stage 3 → read digits
+ *   Stage 4 → clamp overflow
+ * Recognizing these stages lets you write a clean, linear scan without backtracking.
+ *
+ * STEP-BY-STEP WALKTHROUGH:
+ * s = "   -42abc"
+ * 1. Skip spaces → i points to '-'
+ * 2. Sign '-' found → sign = -1, advance i
+ * 3. Read '4', '2' → digit = 4, result = 4; digit = 2, result = 42
+ * 4. 'a' is not a digit → stop loop
+ * 5. Return sign * result = -42
+ *
+ * Overflow check (s = "2147483648"):
+ * maxLimitDividedBy10 = 214748364
+ * When result == 214748364 and next digit == 8 (> 7) → return INT_MAX (2147483647)
+ *
+ * INTERVIEW TIPS:
+ * - The overflow check is the trickiest part — check BEFORE multiplying, not after.
+ *   If result > maxLimitDividedBy10 OR (result == maxLimitDividedBy10 AND digit > 7) → clamp.
+ *   The magic digit 7 comes from INT_MAX = 2147483647 ending in 7.
+ * - Use charCodeAt(i) - 48 to convert char to digit without parseInt (more explicit, avoids locale issues).
+ * - Edge cases: all spaces, leading zeros, only sign character ("+"), numbers mixed with letters early.
+ * - Don't use parseInt or Number() for the final conversion — the point is to build it manually.
+ *
+ * Time Complexity:  O(n) — single linear scan of the string.
+ * Space Complexity: O(1) — only a few variables are used.
+ */
