@@ -117,31 +117,45 @@ console.log("***************************")
 console.log(validateIP("2001:0db8:85a3::8A2E:0370:7334")); // "Neither"
 console.log("***************************")
 /**
- * Interview prep explanation:
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * Determine if a string is a valid IPv4 address, a valid IPv6 address, or neither.
+ * The two formats have very different rules — you cannot apply the same validation to both.
+ * The first decision is always: which format are we even dealing with?
+ * - Contains "." → must be IPv4 (or neither if it fails IPv4 rules).
+ * - Contains ":" → must be IPv6 (or neither if it fails IPv6 rules).
  *
- * The main idea is to identify which IP format the input belongs to and then validate it using the exact rules.
- * We split the string by the separator ('.' for IPv4, ':' for IPv6) and check each segment one by one.
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a SPLIT + VALIDATE EACH SEGMENT pattern — a structured parsing problem.
+ * For any "validate a formatted string" problem:
+ * 1. Identify the separator and expected segment count.
+ * 2. Split by the separator.
+ * 3. Validate each segment against the specific rules.
+ * Use helper functions to keep IPv4 and IPv6 logic separate and readable.
  *
- * For IPv4:
- * - there must be exactly 4 parts
- * - each part must be 1 to 3 digits
- * - each number must be between 0 and 255
- * - no leading zeros are allowed
+ * STEP-BY-STEP WALKTHROUGH — IPv4:
+ * input = "192.168.01.1"
+ * 1. Contains "." → IPv4 path
+ * 2. split(".")  → ["192", "168", "01", "1"] → length 4 ✅
+ * 3. Validate each part:
+ *    "192" → digits only ✅, 0-255 ✅, no leading zero ✅
+ *    "168" → ✅
+ *    "01"  → starts with "0" and length > 1 → LEADING ZERO ❌ → return "Neither"
  *
- * For IPv6:
- * - there must be exactly 8 parts
- * - each part must be 1 to 4 characters long
- * - each part can only contain hexadecimal characters: 0-9, a-f, A-F
+ * STEP-BY-STEP WALKTHROUGH — IPv6:
+ * input = "2001:0db8:85a3:0:0:8A2E:0370:7334"
+ * 1. Contains ":" → IPv6 path
+ * 2. split(":")  → 8 parts ✅
+ * 3. Each part: length 1-4 ✅, only [0-9a-fA-F] ✅ → return "IPv6"
  *
- * Why this is a good interview solution:
- * - It follows the rules directly.
- * - The logic is easy to explain in structured checks.
- * - It is a classic validation problem using splitting and regex.
+ * INTERVIEW TIPS:
+ * - The leading zero check for IPv4 is the most common mistake — always include it.
+ *   "01" is NOT valid even though Number("01") = 1.
+ * - For IPv6, leading zeros ARE allowed ("0001" is valid), unlike IPv4.
+ * - The regex /^\d{1,3}$/ ensures only digits (no letters or signs) before converting to Number.
+ * - Edge case: "2001:0db8:85a3::8A2E:0370:7334" has an empty segment after split → length check fails → "Neither".
+ * - Splitting "1.2.3.4." (trailing dot) gives 5 parts → length check fails → "Neither".
  *
- * Time Complexity: O(n)
- * - We scan the string and validate each segment once.
- *
- * Space Complexity: O(n)
- * - We create arrays of segments from splitting the string.
+ * Time Complexity:  O(n) — we scan and validate each character once.
+ * Space Complexity: O(n) — we create arrays of segments from splitting.
  */
 

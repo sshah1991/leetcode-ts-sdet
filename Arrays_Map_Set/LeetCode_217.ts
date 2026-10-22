@@ -48,21 +48,32 @@ console.log("*****************")
 console.log(checkDuplicates([1]))
 
 /**
- * Interview prep explanation:
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * We need to detect if ANY value appears MORE THAN ONCE in the array.
+ * Return true as soon as we find a duplicate; if we finish without finding one, return false.
+ * We only care about existence of a duplicate, not which one or how many times.
  *
- * Scan the array once while keeping track of values already seen in a Map.
- * For each number, check the Map before adding it:
- * - If it is already present, a duplicate exists, so return true.
- * - Otherwise, add it and continue.
- * If the scan finishes, every value was distinct, so return false.
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is the "seen before" HashMap pattern — the most basic use of a Map/Set.
+ * Whenever a problem asks "have we encountered this value before?", use a Set or Map:
+ * - Before storing a value, check if it is already there.
+ * - If yes → duplicate found, return true immediately (early exit).
+ * - If no  → record it and continue.
  *
- * Example: [1, 2, 3, 1]
- * The first 1, 2, and 3 are recorded. When the final 1 is reached, it is
- * already in the Map, so the function returns true.
+ * STEP-BY-STEP WALKTHROUGH:
+ * nums = [1, 2, 3, 1]
+ * - i=0, num=1: not in Map → store {1: 1}
+ * - i=1, num=2: not in Map → store {1:1, 2:1}
+ * - i=2, num=3: not in Map → store {1:1, 2:1, 3:1}
+ * - i=3, num=1: 1 IS in Map → return true ✅ (early exit, no need to scan further)
  *
- * Checking before inserting also means the function can stop as soon as the
- * answer is known.
+ * INTERVIEW TIPS:
+ * - A Set is slightly cleaner than a Map here since we only care about presence, not count.
+ *   You can mention: "I used a Map, but a Set with has/add is the minimal data structure."
+ * - The early-exit on duplicate is important to mention — we don't scan the whole array if found early.
+ * - Alternative O(1) space approach: sort first, then check adjacent elements. Trade-off: O(n log n) time.
+ * - Edge case: single-element array → loop runs but never finds a duplicate → return false.
  *
- * Time Complexity: O(n) average, because each value is checked once.
- * Space Complexity: O(n) in the worst case, if all values are distinct.
+ * Time Complexity:  O(n) average — each element is checked and stored once; Map lookups are O(1).
+ * Space Complexity: O(n) worst case — if all values are distinct, all n are stored.
  */

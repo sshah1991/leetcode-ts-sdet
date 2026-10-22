@@ -28,26 +28,33 @@ console.log(defangIPaddr("1.1.1.1"));
 console.log(defangIPaddr("255.100.50.0"));
 
 /**
- * Explanation for interview prep:
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * Replace every "." in a valid IPv4 address with "[.]".
+ * Everything else stays the same. The input is GUARANTEED to be a valid IPv4,
+ * so no need for any validation — just a pure string transformation.
  *
- * The goal is to replace every period in the IP address with the string "[.]".
- * Since the input is a valid IPv4 address, we know the dots are the only separators we need to alter.
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a simple STRING REPLACEMENT / SPLIT-JOIN pattern.
+ * Any time you need to replace a delimiter with another string, the idiomatic approach is:
+ *   split(oldDelimiter) → join(newDelimiter)
+ * This is cleaner and less error-prone than manually scanning with a loop or regex replace.
  *
- * A simple and readable approach is:
- * 1. Split the string at every ".".
- * 2. Join the pieces back together using "[.]" as the separator.
+ * STEP-BY-STEP WALKTHROUGH:
+ * input = "1.1.1.1"
+ * 1. split(".")  → ["1", "1", "1", "1"]
+ * 2. join("[.]") → "1[.]1[.]1[.]1" ✅
  *
- * Example:
- * "1.1.1.1" -> ["1", "1", "1", "1"] -> "1[.]1[.]1[.]1"
+ * input = "255.100.50.0"
+ * 1. split(".")  → ["255", "100", "50", "0"]
+ * 2. join("[.]") → "255[.]100[.]50[.]0" ✅
  *
- * Why this is good for interviews:
- * - It is easy to explain in a few seconds.
- * - It uses the built-in string operations directly.
- * - It handles all valid IPv4 addresses without extra complexity.
+ * INTERVIEW TIPS:
+ * - This is a very common warm-up question — solve it in under 2 minutes and move on.
+ * - Mention that split + join is equivalent to replace(/\./g, "[.]") but is more readable.
+ * - If asked to do it without split/join/replace: use a loop and build the string manually
+ *   character by character, appending "[.]" whenever you see ".".
+ * - No edge cases here since the input is guaranteed to be a valid IPv4.
  *
- * Time Complexity: O(n)
- * - We scan through the string and rebuild it once.
- *
- * Space Complexity: O(n)
- * - We create a new string for the defanged result.
+ * Time Complexity:  O(n) — we scan through the string once to split and once to join.
+ * Space Complexity: O(n) — we create a new string for the defanged result.
  */

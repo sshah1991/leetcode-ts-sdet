@@ -68,32 +68,44 @@ console.log(canonicalPath("/home/user/Documents/../Pictures"))
 console.log(canonicalPath("/../"))
 console.log(canonicalPath("/.../a/../b/c/../d/./"))
 /**
- * Interview prep explanation:
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * Simplify a Unix file path to its canonical (shortest unambiguous) form.
+ * The rules to handle:
+ * - "."  means "stay in current directory" → ignore it.
+ * - ".." means "go up one directory" → pop the last directory from the stack.
+ * - ""   means an empty segment (from consecutive slashes like "//") → ignore it.
+ * - Anything else is a real directory or file name → keep it.
+ * The result must start with "/" and must NOT end with "/" (unless it's the root "/").
  *
- * This problem is basically simulating how a Unix shell resolves a file path.
- * We process the path piece by piece and maintain a stack of valid directories.
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a STACK-based simulation problem.
+ * Any time you see "go back / undo / move up a level", think STACK:
+ * - Push when moving into a directory.
+ * - Pop when going up ("..").
+ * - Skip when there's nothing to do ("." or "").
+ * After processing all segments, join the stack with "/" and prepend "/".
  *
- * Rules:
- * - Ignore empty parts and "." because they do not change the location.
- * - If we see "..", move up one level by popping the last directory from the stack.
- * - Otherwise, treat the segment as a real folder name and push it onto the stack.
+ * STEP-BY-STEP WALKTHROUGH:
+ * input = "/home/user/Documents/../Pictures"
+ * 1. split("/") → ["", "home", "user", "Documents", "..", "Pictures"]
+ * 2. Process each:
+ *    ""           → skip (empty segment from leading "/")
+ *    "home"       → push → stack: ["home"]
+ *    "user"       → push → stack: ["home", "user"]
+ *    "Documents"  → push → stack: ["home", "user", "Documents"]
+ *    ".."         → pop  → stack: ["home", "user"]
+ *    "Pictures"   → push → stack: ["home", "user", "Pictures"]
+ * 3. Join: "/" + "home/user/Pictures" = "/home/user/Pictures" ✅
  *
- * Example:
- * input: "/home/user/Documents/../Pictures"
- * parts: ["", "home", "user", "Documents", "..", "Pictures"]
- * stack becomes: ["home", "user", "Pictures"]
- * result: "/home/user/Pictures"
+ * INTERVIEW TIPS:
+ * - Mention that "..." (three dots) is a VALID directory name — only exactly ".." means go up.
+ *   The else branch handles any segment that isn't ".", "..", or "" as a real name.
+ * - Edge case: "/../" → pop on an empty stack does nothing (pop returns undefined) → result is "/".
+ * - Edge case: "///" → three empty segments all skipped → result is "/".
+ * - The problem says the input is always a valid absolute path, so no need to validate it.
  *
- * Why this is a strong interview solution:
- * - It matches the real behavior of path navigation.
- * - It is easy to explain: "Use a stack for directory changes."
- * - It handles repeated slashes and dot segments cleanly.
- *
- * Time Complexity: O(n)
- * - We scan through each segment once.
- *
- * Space Complexity: O(n)
- * - The stack stores the valid directories in the final path.
+ * Time Complexity:  O(n) — we process each segment of the split path exactly once.
+ * Space Complexity: O(n) — the stack stores the valid directory names.
  */
 
 

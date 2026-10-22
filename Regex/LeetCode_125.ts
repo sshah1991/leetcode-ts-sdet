@@ -42,33 +42,42 @@ function checkPalindrome(input:string):boolean{
 }
 
 /**
- * Interview prep explanation:
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * A palindrome reads the same forwards and backwards. But here we must IGNORE:
+ * - Case (uppercase/lowercase)
+ * - Non-alphanumeric characters (spaces, punctuation, etc.)
+ * Only letters and digits count. After cleaning, check if the result is a palindrome.
  *
- * The key idea is to normalize the string before checking palindrome behavior.
- * We should ignore case and remove all non-alphanumeric characters because a palindrome
- * is judged only on letters and numbers.
- *
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a string NORMALIZATION + PALINDROME CHECK pattern.
+ * Whenever a problem says "ignore certain characters / case", the first step is always
+ * to clean/normalize the string before applying the main logic.
  * Steps:
- * 1. Convert the string to lowercase.
- * 2. Remove every character that is not a letter or digit.
- * 3. Reverse the cleaned string.
- * 4. Compare it with the original cleaned string.
+ * 1. Normalize: lowercase + remove non-alphanumeric via regex.
+ * 2. Check: compare the cleaned string with its reverse.
  *
- * Example:
- * "A man, a plan, a canal: Panama"
- * becomes "amanaplanacanalpanama"
- * which reads the same forward and backward, so the answer is true.
+ * STEP-BY-STEP WALKTHROUGH:
+ * input = "A man, a plan, a canal: Panama"
+ * 1. toLowerCase()  → "a man, a plan, a canal: panama"
+ * 2. replace(/[^a-z0-9]/g, "") → "amanaplanacanalpanama"
+ * 3. reverse         → "amanaplanacanalpanama"
+ * 4. cleaned === reversed → true ✅
  *
- * Why this is a good interview approach:
- * - It directly matches the problem statement.
- * - It is easy to explain in a few steps.
- * - It handles punctuation and uppercase/lowercase cleanly.
+ * input = "race a car"
+ * 1. toLowerCase()  → "race a car"
+ * 2. replace(...)   → "raceacar"
+ * 3. reverse         → "racaecar"
+ * 4. "raceacar" !== "racaecar" → false ✅
  *
- * Time Complexity: O(n)
- * - We scan and transform the string once, then reverse it.
+ * INTERVIEW TIPS:
+ * - The regex [^a-z0-9] means "anything that is NOT a-z or 0-9" — the ^ inside [] negates.
+ * - An alternative O(1) space approach: use two pointers (left, right) directly on the cleaned
+ *   string, moving inward and comparing characters — avoids building a reversed copy.
+ * - Mention that .split("").reverse().join("") is idiomatic JS for reversing a string.
+ * - Edge case: " " (only a space) → cleaned string is "" → "" === "" → true.
  *
- * Space Complexity: O(n)
- * - We create a cleaned string and a reversed version.
+ * Time Complexity:  O(n) — we scan and transform the string once, then reverse it.
+ * Space Complexity: O(n) — we create a cleaned string and a reversed version.
  */
 
 console.log(checkPalindrome("A man, a plan, a canal: Panama"))

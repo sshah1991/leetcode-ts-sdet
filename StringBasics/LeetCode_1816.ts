@@ -36,27 +36,37 @@ truncateSentence("What is the solution to this problem",4)
 truncateSentence("chopper is not a tanuki",5)
 
 /**
- * Interview explanation:
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * Given a sentence (words separated by single spaces, no extra spaces) and a number k,
+ * return only the FIRST k words joined back as a sentence.
+ * The input is clean — no leading/trailing spaces, single spaces between words —
+ * so we don't need to do any trimming or multi-space handling.
  *
- * The problem is asking us to keep only the first k words from a sentence.
- * Since the sentence is already formatted as words separated by single spaces,
- * the easiest approach is to split the string on spaces and then take only the first k elements.
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a SPLIT + SLICE + JOIN pattern.
+ * When a problem says "take the first k words", think:
+ * - Split by the delimiter (space) to get an array of words.
+ * - Use slice(0, k) to take only the first k elements.
+ * - Join back with the delimiter to rebuild the sentence.
  *
- * Example:
- * input = "Hello how are you Contestant"
- * k = 4
- * split(" ") gives ["Hello", "how", "are", "you", "Contestant"]
- * slice(0, 4) gives ["Hello", "how", "are", "you"]
- * join(" ") gives "Hello how are you"
+ * STEP-BY-STEP WALKTHROUGH:
+ * input = "Hello how are you Contestant", k = 4
+ * 1. split(" ")    → ["Hello", "how", "are", "you", "Contestant"]
+ * 2. slice(0, 4)   → ["Hello", "how", "are", "you"]
+ * 3. join(" ")     → "Hello how are you" ✅
  *
- * Why this is a good interview solution:
- * - It directly matches the problem statement.
- * - It is easy to explain in one sentence: "Split the sentence into words, take the first k words, then join them back."
- * - It works because the input guarantees a single space between words and no extra spaces.
+ * input = "chopper is not a tanuki", k = 5
+ * 1. split(" ")    → ["chopper", "is", "not", "a", "tanuki"]   (5 words)
+ * 2. slice(0, 5)   → ["chopper", "is", "not", "a", "tanuki"]   (all 5, nothing removed)
+ * 3. join(" ")     → "chopper is not a tanuki" ✅
  *
- * Time Complexity: O(n)
- * - Splitting, slicing, and joining all process the string in linear time.
+ * INTERVIEW TIPS:
+ * - The problem guarantees k is in the valid range [1, number of words], so no out-of-bounds risk.
+ * - Because the input has no extra spaces, split(" ") (literal space) works perfectly here.
+ *   If input could have multiple spaces, split(/\s+/) would be needed instead.
+ * - Mention that slice is non-destructive — it creates a new array, leaving the original intact.
+ * - This is a classic "read the constraints carefully" problem — the clean input makes the solution simple.
  *
- * Space Complexity: O(n)
- * - We create a new array of words and a new string for the result.
+ * Time Complexity:  O(n) — split, slice, and join all process the string in linear time.
+ * Space Complexity: O(n) — we create a new words array and a new result string.
  */

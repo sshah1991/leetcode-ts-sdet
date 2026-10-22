@@ -44,23 +44,31 @@ console.log(twoSum([3,2,4],6));
 console.log(twoSum([3,3],6));
 
 /**
- * Interview prep explanation:
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * We are given an array and a target. We need to find two numbers that ADD UP to the target
+ * and return their INDICES (not the values). Each input has exactly one solution,
+ * and we cannot use the same element twice.
  *
- * We need to return the indices of two numbers whose sum equals the target.
- * As we scan the array, calculate the complement each number needs:
- * complement = target - currentNumber.
+ * HOW TO RECOGNIZE THE PATTERN:
+ * Any time you see "find two elements that satisfy a condition", think HashMap/Map.
+ * Instead of checking every pair (O(n²)), use a Map to store what you've seen:
+ * - For each number, calculate its complement = target - currentNumber.
+ * - If the complement is already in the Map, you found your pair.
+ * - Otherwise, store the current number → index in the Map and keep going.
  *
- * Store each number and its index in a Map as we visit it. Before storing the
- * current number, check whether its complement is already in the Map. If so,
- * those two indices form the answer. Checking before inserting also ensures
- * that we do not use the same array element twice.
+ * STEP-BY-STEP WALKTHROUGH:
+ * nums = [3, 2, 4], target = 6
+ * - i=0, num=3: complement = 6-3 = 3. Map is empty → store {3: 0}
+ * - i=1, num=2: complement = 6-2 = 4. 4 not in Map → store {3:0, 2:1}
+ * - i=2, num=4: complement = 6-4 = 2. 2 IS in Map at index 1 → return [1, 2] ✅
  *
- * Example: nums = [3, 2, 4], target = 6
- * - Visit 3: complement is 3; it is not in the Map, so store 3 -> index 0.
- * - Visit 2: complement is 4; it is not in the Map, so store 2 -> index 1.
- * - Visit 4: complement is 2; it is in the Map, so return [1, 2].
+ * INTERVIEW TIPS:
+ * - Always check the Map BEFORE inserting to avoid using the same element twice.
+ * - Mention the brute-force O(n²) approach first, then improve to O(n) with a Map.
+ * - Edge case: nums = [3, 3], target = 6 — works because we check before inserting,
+ *   so the second 3 finds the first 3 already in the Map.
+ * - The Map stores number → index (not index → number) for O(1) complement lookup.
  *
- * Time Complexity: O(n), because each number is processed once and Map lookups
- * take O(1) average time.
- * Space Complexity: O(n), because the Map may store up to n numbers.
+ * Time Complexity:  O(n) — single pass; Map lookups are O(1) average.
+ * Space Complexity: O(n) — the Map stores at most n entries.
  */

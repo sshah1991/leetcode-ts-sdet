@@ -44,29 +44,40 @@ console.log(reverseWords("a good   example"))
 
 
 /*
-Interview-friendly breakdown:
-
-We need to reverse the order of words while ignoring extra spaces at the beginning, end, and between words.
-
-A clean way to think about the problem is:
-1. Trim the string to remove leading and trailing spaces.
-2. Split the string on any whitespace sequence using /\s+/.
-   - This converts "a good   example" into ["a", "good", "example"].
-   - It also handles cases like "  hello world  " safely.
-3. Reverse the array of words.
-4. Join them back together with a single space.
-
-Why this works:
-- trim() removes unnecessary spaces on the outside.
-- split(/\s+/) collapses multiple spaces between words into one logical separation.
-- reverse() flips the word order.
-- join(" ") rebuilds the final string with exactly one space between words.
-
-Time complexity: O(n)
-- We scan the string once to split and once to join, so this is linear in the input size.
-
-Space complexity: O(n)
-- We store the words in an array before joining them back together.
-
-This is a great interview approach because it is short, readable, and directly matches the problem constraints.
-*/
+ * HOW TO UNDERSTAND THE PROBLEM:
+ * Reverse the ORDER of words in the string, not the characters within each word.
+ * The tricky part: the input may have leading/trailing spaces AND multiple spaces between words.
+ * The output must have exactly ONE space between words and NO extra spaces at the ends.
+ *
+ * HOW TO RECOGNIZE THE PATTERN:
+ * This is a TRIM + SPLIT + REVERSE + JOIN pattern.
+ * When a problem involves manipulating words (not characters) in a string, the natural approach is:
+ * 1. Isolate the words (split, handling multiple spaces).
+ * 2. Apply the operation (reverse the array).
+ * 3. Rebuild the string (join with single space).
+ * The key tool is split(/\s+/) — it splits on ANY whitespace sequence, collapsing multiple spaces.
+ *
+ * STEP-BY-STEP WALKTHROUGH:
+ * s = "  hello world  "
+ * 1. trim()         → "hello world"
+ * 2. split(/\s+/)   → ["hello", "world"]
+ * 3. reverse()      → ["world", "hello"]
+ * 4. join(" ")      → "world hello" ✅
+ *
+ * s = "a good   example"
+ * 1. trim()         → "a good   example"
+ * 2. split(/\s+/)   → ["a", "good", "example"]   ← multiple spaces collapsed
+ * 3. reverse()      → ["example", "good", "a"]
+ * 4. join(" ")      → "example good a" ✅
+ *
+ * INTERVIEW TIPS:
+ * - The regex /\s+/ is the key: it handles any number of spaces (including tabs/newlines).
+ * - trim() before split ensures no empty strings at the start/end of the array.
+ * - If asked for an in-place O(1) space solution (e.g., in C++): reverse the whole string,
+ *   then reverse each word individually — a classic two-step reversal trick.
+ * - Mention that split(" ") (single space) would NOT work here because "a  b" would give
+ *   ["a", "", "b"] with an empty string in the middle.
+ *
+ * Time Complexity:  O(n) — each character is processed a constant number of times.
+ * Space Complexity: O(n) — we store the words array and the result string.
+ */
