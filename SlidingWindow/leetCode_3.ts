@@ -25,8 +25,29 @@
  *
 */
 function lengthOfLongestSubstring(s: string): number {
-  // Your code here
+  let left=0
+  let maxLength=0
+  let charMap=new Map<string,number>()
 
+  for(let right=0;right<s.length;right++){
+    const currentCharacter=s[right]
+    if(charMap.has(currentCharacter) && charMap.get(currentCharacter)!>=left){
+      left=charMap.get(currentCharacter)!+1
+    }
+    // Record or update the most recent index of currentChar
+    charMap.set(currentCharacter, right);
+
+    const currentWindowSize= right-left+1
+    maxLength=Math.max(maxLength,currentWindowSize)
+  }
   
-  return 0
+  return maxLength
 }
+
+console.log(lengthOfLongestSubstring("abcabcbb")); // 3 ("abc")
+console.log(lengthOfLongestSubstring("bbbbb"));    // 1 ("b")
+console.log(lengthOfLongestSubstring("pwwkew"));   // 3 ("wke")
+console.log(lengthOfLongestSubstring(""));         // 0 (empty string)
+console.log(lengthOfLongestSubstring("abba"));     // 2 ("ab" or "ba")
+console.log(lengthOfLongestSubstring(" "));        // 1 (space character)
+console.log(lengthOfLongestSubstring("au"));       // 2 ("au")
