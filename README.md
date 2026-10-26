@@ -13,7 +13,7 @@
 </div>
 
 ---
-
+<img width="1254" height="1254" alt="DSA Interview Prep Repository Infographic" src="https://github.com/user-attachments/assets/17aa2f42-4ca6-4b7b-937b-abda16bb48a4" />
 ## 📌 Why This Repository Exists
 
 Most DSA prep resources are built for **Software Development Engineers (SDEs)** — they optimise for speed, recursion depth, and competitive programming tricks.
