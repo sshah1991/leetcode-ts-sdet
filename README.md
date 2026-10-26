@@ -8,12 +8,11 @@
 ![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![Target Role](https://img.shields.io/badge/Target%20Role-SDET%20%7C%20QA%20Engineer-FF6B6B?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
-![Problems](https://img.shields.io/badge/Problems%20Solved-31-4CAF50?style=for-the-badge)
 
 </div>
-
----
 <img width="1254" height="1254" alt="DSA Interview Prep Repository Infographic" src="https://github.com/user-attachments/assets/17aa2f42-4ca6-4b7b-937b-abda16bb48a4" />
+---
+
 ## 📌 Why This Repository Exists
 
 Most DSA prep resources are built for **Software Development Engineers (SDEs)** — they optimise for speed, recursion depth, and competitive programming tricks.
